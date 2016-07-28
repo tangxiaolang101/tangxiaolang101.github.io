@@ -29,12 +29,12 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img lazy-src="url(&#39;./source/img/icon.png&#39;)" class="js-avatar">
+			<img lazy-src="https://github.com/tangxiaolang101/CanvasSmLine/blob/note/icon.png?raw=true" class="js-avatar">
 			
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Tang Anmin</a></h1>
+		  <h1 class="header-author"><a href="/">唐瓜</a></h1>
 		</hgroup>
 
 		
@@ -109,7 +109,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						
+						<a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a>
 					</div>
 				</section>
 				
@@ -151,17 +151,17 @@
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">Tang Anmin</h1>
+  		<h1 class="header-author js-mobile-header hide">唐瓜</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
 			
-				<img lazy-src="url(&#39;./source/img/icon.png&#39;)" class="js-avatar">
+				<img lazy-src="https://github.com/tangxiaolang101/CanvasSmLine/blob/note/icon.png?raw=true" class="js-avatar">
 			
 			</div>
 			<hgroup>
-			  <h1 class="header-author">Tang Anmin</h1>
+			  <h1 class="header-author">唐瓜</h1>
 			</hgroup>
 			
 			<nav class="header-menu">
@@ -270,6 +270,7 @@
 </ol>
 <figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span><span class="params">()</span> </span>&#123;　　　　</div><div class="line">	<span class="keyword">var</span> n = <span class="number">999</span>;　　　　</div><div class="line">	nAdd = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">		n += <span class="number">1</span></div><div class="line">	&#125;　　　　</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">f2</span><span class="params">()</span> </span>&#123;　　　　　　</div><div class="line">		alert(n);　　　　</div><div class="line">	&#125;　　　　</div><div class="line">	<span class="keyword">return</span> f2;　　</div><div class="line">&#125;　　</div><div class="line"><span class="keyword">var</span> result1 = f1();</div><div class="line"><span class="keyword">var</span> result2 = f1();</div><div class="line"><span class="keyword">var</span> result3 = f1();　　</div><div class="line"></div><div class="line">nAdd();</div><div class="line">result1(); </div><div class="line">result1();</div><div class="line">result2();</div><div class="line">result3();</div></pre></td></tr></table></figure>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">function f1() &#123;　　　　</div><div class="line"><span class="code">	var n = 999;　　　　</span></div><div class="line"><span class="code">	nAdd = function() &#123;</span></div><div class="line"><span class="code">		n += 1</span></div><div class="line"><span class="code">	&#125;　　　　</span></div><div class="line"><span class="code">	var f2 =function() &#123;　　　　　　</span></div><div class="line"><span class="code">		alert(n);　　　　</span></div><div class="line"><span class="code">	&#125;</span></div><div class="line"><span class="code">	var f3 = function()&#123;</span></div><div class="line"><span class="code">		n+=1;</span></div><div class="line"><span class="code">	&#125;</span></div><div class="line"><span class="code">	var obj = &#123;</span></div><div class="line"><span class="code">		f2: f2,</span></div><div class="line"><span class="code">		f3: f3</span></div><div class="line"><span class="code">	&#125;　　　　</span></div><div class="line"><span class="code">	return obj;　　</span></div><div class="line">&#125;　　</div><div class="line">var result1 = f1();</div><div class="line">var result2 = f1();</div><div class="line">var result3 = f1();　</div><div class="line">　　</div><div class="line">result1[<span class="string">'f2'</span>](<span class="link"></span>);</div><div class="line">result2[<span class="string">'f2'</span>](<span class="link"></span>);</div><div class="line">result3[<span class="string">'f2'</span>](<span class="link"></span>);</div><div class="line"></div><div class="line">result1[<span class="string">'f3'</span>](<span class="link"></span>);</div><div class="line">/*result2[<span class="string">'f3'</span>](<span class="link"></span>);</div><div class="line">result3[<span class="string">'f3'</span>](<span class="link"></span>);*/</div><div class="line"></div><div class="line">result1[<span class="string">'f2'</span>](<span class="link"></span>);</div><div class="line">result2[<span class="string">'f2'</span>](<span class="link"></span>);</div><div class="line">result3[<span class="string">'f2'</span>](<span class="link"></span>);</div></pre></td></tr></table></figure>
+<h5 id="http-stackoverflow-com-questions-38626138-javascript-closurewhy-only-result3s-output-is-effected-by-nadd-38626232"><a href="#http-stackoverflow-com-questions-38626138-javascript-closurewhy-only-result3s-output-is-effected-by-nadd-38626232" class="headerlink" title="http://stackoverflow.com/questions/38626138/javascript-closurewhy-only-result3s-output-is-effected-by-nadd/38626232"></a><a href="http://stackoverflow.com/questions/38626138/javascript-closurewhy-only-result3s-output-is-effected-by-nadd/38626232" target="_blank" rel="external">http://stackoverflow.com/questions/38626138/javascript-closurewhy-only-result3s-output-is-effected-by-nadd/38626232</a></h5><p>这个网址是stackoverflow上我对上面代码疑惑的提问，几个大神的答案一综合就可以理解问题了，相当nice！！大家可以看一看。</p>
 
       
     </div>
@@ -277,119 +278,10 @@
     <div class="article-info article-info-index">
       
       
-      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
 
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Hello-Hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/07/27/Hello-Hexo/" class="article-date">
-  	<time datetime="2016-07-27T07:53:04.000Z" itemprop="datePublished">2016-07-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/27/Hello-Hexo/">Hello Hexo</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/07/27/hello-world/" class="article-date">
-  	<time datetime="2016-07-27T07:38:03.213Z" itemprop="datePublished">2016-07-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/27/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
       
 
       
@@ -415,7 +307,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2016 Tang Anmin
+    		&copy; 2016 唐瓜
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
