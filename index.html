@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="小狼驿站">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="https://tangxiaolang101.github.io/index.html">
 <meta property="og:site_name" content="小狼驿站">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小狼驿站">
@@ -184,6 +184,94 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-JS函数式编程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/29/JS函数式编程/" class="article-date">
+  	<time datetime="2016-07-29T06:29:38.000Z" itemprop="datePublished">2016-07-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/29/JS函数式编程/">JS函数式编程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、概念相关"><a href="#一、概念相关" class="headerlink" title="一、概念相关"></a>一、概念相关</h3><ol>
+<li>“函数式编程”是这种编程典范，它将电脑运算视为函数的计算。和指令式编程相比，函数式编程强调函数的计算比指令的执行重要；和过程化编程相比，函数式编程里，函数的计算可随时调用。</li>
+<li>函数式编程的重点是函数的定义而不是状态机（state machine）的实现</li>
+<li>函数式概念的运用，例如：扩展数组排序、动态HTML生成的优美代码、系列函数的应用。</li>
+</ol>
+<h3 id="二、应用概念"><a href="#二、应用概念" class="headerlink" title="二、应用概念"></a>二、应用概念</h3><h4 id="1、高阶函数"><a href="#1、高阶函数" class="headerlink" title="1、高阶函数"></a>1、高阶函数</h4><p>可以操作其它函数的函数，被称为高阶函数。利用高阶函数可以简化操作。</p>
+<h3 id="三、应用代码"><a href="#三、应用代码" class="headerlink" title="三、应用代码"></a>三、应用代码</h3><ol>
+<li><p>扩展数组排序</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">var a = &#123;</div><div class="line">	value: <span class="number">1</span>,</div><div class="line">	<span class="built_in">date</span>: <span class="number">2001</span></div><div class="line">	&#125;</div><div class="line">var b = &#123;</div><div class="line">	value: <span class="number">2</span>,</div><div class="line">	<span class="built_in">date</span>:<span class="number">2002</span></div><div class="line">	&#125;</div><div class="line">var c = &#123;</div><div class="line">	value: <span class="number">3</span>,</div><div class="line">	<span class="built_in">date</span>:<span class="number">2003</span></div><div class="line">	&#125;</div><div class="line">var <span class="built_in">str</span> = [a,c,b];</div><div class="line">var str2 = [<span class="string">'zx'</span>,<span class="string">'z'</span>,<span class="string">'yz'</span>];</div><div class="line">str2.<span class="built_in">sort</span>();</div><div class="line">console.<span class="built_in">log</span>(str2);</div><div class="line">	<span class="built_in">str</span>.<span class="built_in">sort</span>(function(x,y)&#123;</div><div class="line">		return x.<span class="built_in">date</span> - y.<span class="built_in">date</span>;</div><div class="line">	&#125;);</div><div class="line">console.<span class="built_in">log</span>(<span class="built_in">str</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>系列函数应用</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">	<span class="built_in">Function</span>.prototype.sequence=<span class="function"><span class="keyword">function</span>(<span class="params">g</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> f=<span class="keyword">this</span>;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    f();g();</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertFrst</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">'First!'</span>); &#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertSec</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">'Second!'</span>); &#125;<span class="number">2</span></div><div class="line">setTimeout( alertFrst.sequence(alertSec), <span class="number">5000</span>);</div></pre></td></tr></table></figure>
+<p>一组函数作为回调函数  </p>
+<ol>
+<li>匿名函数</li>
+</ol>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> averageF = <span class="function"><span class="keyword">function</span><span class="params">(x,y)</span></span>&#123;</div><div class="line">  <span class="keyword">return</span> (x+y)/<span class="number">2</span>;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>通过匿名函数，没有必要把函数一直放在内存中，所以使用匿名函数更加有效率。</p>
+<ol>
+<li>“短路”条件调用</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> f = <span class="literal">false</span>;</div><div class="line"><span class="keyword">var</span> t = <span class="literal">true</span>;</div><div class="line"><span class="keyword">var</span> z = (f&amp;&amp;<span class="number">4</span>)||(t&amp;&amp;<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(z);</div></pre></td></tr></table></figure>
+<ol>
+<li>规约函数</li>
+</ol>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span></span> forEach(array, func)&#123;</div><div class="line">	for(var i = <span class="number">0</span>; i&lt;array.length;i++)&#123;</div><div class="line">	    func(array[i]);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">	</div><div class="line"><span class="function"><span class="keyword">function</span></span> reduce(combine, base, array)&#123;</div><div class="line">	forEach(array, <span class="function"><span class="keyword">function</span><span class="params">(value)</span></span>&#123;</div><div class="line">		base = combine(base, <span class="keyword">value</span>);</div><div class="line">	&#125;);</div><div class="line">	<span class="keyword">return</span> base;</div><div class="line">&#125;</div><div class="line">		</div><div class="line"><span class="function"><span class="keyword">function</span></span> countZeros(<span class="built_in">count</span>, <span class="keyword">value</span>)&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">value</span> == <span class="number">0</span>? (<span class="built_in">count</span> + <span class="number">1</span>):<span class="built_in">count</span>;</div><div class="line">&#125;</div><div class="line">		</div><div class="line"><span class="function"><span class="keyword">function</span></span> add(<span class="built_in">sum</span>, <span class="keyword">value</span>)&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">value</span> + <span class="built_in">sum</span>;</div><div class="line">&#125;</div><div class="line">		</div><div class="line">var a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">0</span>];</div><div class="line">console.<span class="built_in">log</span>(reduce(countZeros, <span class="number">0</span>, a));</div><div class="line">console.<span class="built_in">log</span>(reduce(add, <span class="number">0</span>, a));</div></pre></td></tr></table></figure>
+<ol>
+<li>分布应用，函数的一个操作符给定。例如：对数组中的每一个元素都+1的操作。</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">forEach</span><span class="params">(array, func)</span></span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i&lt;<span class="keyword">array</span>.length;i++)&#123;</div><div class="line">	func(<span class="keyword">array</span>[i]);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">	</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">reduce</span><span class="params">(combine, base, array)</span></span>&#123;</div><div class="line">	<span class="keyword">forEach</span>(<span class="keyword">array</span>, <span class="function"><span class="keyword">function</span><span class="params">(value)</span></span>&#123;</div><div class="line">		base = combine(base, value);</div><div class="line">	&#125;);</div><div class="line">	<span class="keyword">return</span> base;</div><div class="line">&#125;</div><div class="line">		</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">countZeros</span><span class="params">(count, value)</span></span>&#123;</div><div class="line">	<span class="keyword">return</span> value == <span class="number">0</span>? (count + <span class="number">1</span>):count;</div><div class="line">&#125;</div><div class="line">		</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(sum, value)</span></span>&#123;</div><div class="line">	<span class="keyword">return</span> value + sum;</div><div class="line">&#125;</div><div class="line">		</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">map</span><span class="params">(func, array)</span></span>&#123;</div><div class="line">	<span class="keyword">var</span> result = [];</div><div class="line">    <span class="keyword">forEach</span>(<span class="keyword">array</span>, <span class="function"><span class="keyword">function</span><span class="params">(value)</span></span>&#123;</div><div class="line">	    result.push(func(value));</div><div class="line">    &#125;);</div><div class="line">	<span class="keyword">return</span> result;</div><div class="line">&#125;</div><div class="line">		</div><div class="line"><span class="keyword">var</span> ops = &#123;</div><div class="line">	<span class="string">"+"</span>: <span class="function"><span class="keyword">function</span><span class="params">(x,y)</span></span>&#123;<span class="keyword">return</span> x+y&#125;,</div><div class="line">	<span class="string">"-"</span>: <span class="function"><span class="keyword">function</span><span class="params">(x,y)</span></span>&#123;<span class="keyword">return</span> x-y&#125;,</div><div class="line">	<span class="string">"*"</span>: <span class="function"><span class="keyword">function</span><span class="params">(x,y)</span></span>&#123;<span class="keyword">return</span> x*y&#125;,</div><div class="line">	<span class="string">"/"</span>: <span class="function"><span class="keyword">function</span><span class="params">(x,y)</span></span>&#123;<span class="keyword">return</span> x/y&#125;		</div><div class="line">&#125;;</div><div class="line">		</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">partial</span><span class="params">(func)</span></span>&#123;</div><div class="line">     <span class="keyword">var</span> knowArgs=arguments;</div><div class="line">     <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</div><div class="line">         <span class="keyword">var</span> realArgs=[];</div><div class="line">         <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; knowArgs.length; i++)&#123;</div><div class="line">             realArgs.push(knowArgs[i]);</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arguments.length; i++)&#123;</div><div class="line">             realArgs.push(arguments[i]);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> func.apply(<span class="keyword">null</span>, realArgs);</div><div class="line">     &#125;</div><div class="line"> &#125;</div><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">0</span>];</div><div class="line"></div><div class="line">console.log(map(partial(ops[<span class="string">"+"</span>], <span class="number">1</span>), a));</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-闭包深入理解" class="article article-type-post" itemscope itemprop="blogPost">
   
