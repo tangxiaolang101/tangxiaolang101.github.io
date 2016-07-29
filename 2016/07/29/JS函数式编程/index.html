@@ -22,7 +22,7 @@
 函数式概念的运用，例如：扩展数组排序、动态HTML生成的优美代码、系列函数的应用。
 
 二、应用概念1、高阶函数可以操作其它函数的函数，">
-<meta property="og:updated_time" content="2016-07-29T06:30:39.013Z">
+<meta property="og:updated_time" content="2016-07-29T07:26:57.625Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS函数式编程">
 <meta name="twitter:description" content="一、概念相关
@@ -253,7 +253,7 @@
 </li>
 </ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">	<span class="built_in">Function</span>.prototype.sequence=<span class="function"><span class="keyword">function</span>(<span class="params">g</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> f=<span class="keyword">this</span>;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    f();g();</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertFrst</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">'First!'</span>); &#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertSec</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">'Second!'</span>); &#125;<span class="number">2</span></div><div class="line">setTimeout( alertFrst.sequence(alertSec), <span class="number">5000</span>);</div></pre></td></tr></table></figure>
-<p>一组函数作为回调函数  </p>
+<p>一组函数作为回调函数<br><strong> 以上是文章摘要 阅读更多请点击——&gt;右下角的more </strong> <a id="more"></a> 以下是余下全文 </p>
 <ol>
 <li>匿名函数</li>
 </ol>
