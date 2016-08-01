@@ -111,7 +111,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a>
+						<a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/翻译/" style="font-size: 10px;">翻译</a>
 					</div>
 				</section>
 				
@@ -184,6 +184,75 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-深入探讨JavaScript的执行环境和栈（What is the Execution Context &amp; Stack in JavaScript）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/01/深入探讨JavaScript的执行环境和栈（What is the Execution Context & Stack in JavaScript）/" class="article-date">
+  	<time datetime="2016-08-01T09:05:38.000Z" itemprop="datePublished">2016-08-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/01/深入探讨JavaScript的执行环境和栈（What is the Execution Context & Stack in JavaScript）/">深入探讨JavaScript的执行环境和栈（What is the Execution Context &amp; Stack in JavaScript）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文网址：<a href="http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/">http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/</a></p>
+<p>这篇文章我将会深入地讨论JavaScript中最根本的一部分——Execution Context(执行上下文)。在文章结束的时候，你应该对解释器的工作原理有一个比较清晰的理解，对于为什么会存在‘变量提升’，它们的值又是如何被真正确定的这些问题有一个正确的答案。</p>
+<h4 id="什么是Executin-Context-执行上下文"><a href="#什么是Executin-Context-执行上下文" class="headerlink" title="什么是Executin Context(执行上下文)"></a>什么是Executin Context(执行上下文)</h4><p> 当JavaScript代码执行的时候，执行环境是很重要的，它可能是下面三种情况中的一种：</p>
+<ul>
+<li>全局 code（Global code）——代码第一次执行的默认环境</li>
+<li>函数 code（Function code）——执行流进入函数体</li>
+<li>Eval code（Eval code）——代码在eval函数内部执行</li>
+</ul>
+<p>在网上你能够读到许多关于作用域的资料，这篇文章的目的是让事情变得简单些。让我们来思考下execution context这个词，它与当前代码的环境 / 作用域是等价的。好了，说的够多了，让我们来看一个包含global和function / local context的例子吧。</p>
+<p><img src="http://davidshariff.com/blog/wp-content/uploads/2012/06/img1.jpg" alt="image"><br> 这里没有什么特别的地方，我们有一个global context被紫色的框框着，还有三个不同的function context，分别被绿色、蓝色、橘色的框框着。在你的程序中，有且仅能有一个global context，并且它能够被任何其他的context访问到。<br>你能够拥有任意多个function context，并且每个函数被调用的时候都会生成一个新的context。它会生成一个私有作用域，并且在它内部声明的任何东西都不能直接在它的外部访问。就像上面的例子，一个函数可以直接访问它外面的变量，但是外部的context就不能直接访问在内部声明的变量或者函数。为什么会这样？如何准确的理解这段代码的执行？<br><strong> 以上是文章摘要 阅读更多请点击——&gt;右下角的more </strong>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/翻译/">翻译</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/08/01/深入探讨JavaScript的执行环境和栈（What is the Execution Context & Stack in JavaScript）/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-JS函数式编程" class="article article-type-post" itemscope itemprop="blogPost">
   

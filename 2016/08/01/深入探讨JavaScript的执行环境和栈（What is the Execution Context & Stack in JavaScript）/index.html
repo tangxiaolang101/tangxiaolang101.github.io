@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>深入探讨JavaScript的执行环境和栈（What is the Execution Context &amp; Stack in JavaScript） | 小狼驿站</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原文网址：http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/
+这篇文章我将会深入地讨论JavaScript中最根本的一部分——Execution Context(执行上下文)。在文章结束的时候，你应该对解释器的工作原理有一个比较清晰的理解，对于为什么会存在‘变量提升’，它们的值又是如何被真正确定的这些问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入探讨JavaScript的执行环境和栈（What is the Execution Context & Stack in JavaScript）">
+<meta property="og:url" content="https://tangxiaolang101.github.io/2016/08/01/深入探讨JavaScript的执行环境和栈（What is the Execution Context & Stack in JavaScript）/index.html">
+<meta property="og:site_name" content="小狼驿站">
+<meta property="og:description" content="原文网址：http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/
+这篇文章我将会深入地讨论JavaScript中最根本的一部分——Execution Context(执行上下文)。在文章结束的时候，你应该对解释器的工作原理有一个比较清晰的理解，对于为什么会存在‘变量提升’，它们的值又是如何被真正确定的这些问">
+<meta property="og:image" content="http://davidshariff.com/blog/wp-content/uploads/2012/06/img1.jpg">
+<meta property="og:image" content="http://davidshariff.com/blog/wp-content/uploads/2012/06/ecstack.jpg">
+<meta property="og:image" content="http://davidshariff.com/blog/wp-content/uploads/2012/06/es1.gif">
+<meta property="og:updated_time" content="2016-08-01T09:14:20.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入探讨JavaScript的执行环境和栈（What is the Execution Context & Stack in JavaScript）">
+<meta name="twitter:description" content="原文网址：http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/
+这篇文章我将会深入地讨论JavaScript中最根本的一部分——Execution Context(执行上下文)。在文章结束的时候，你应该对解释器的工作原理有一个比较清晰的理解，对于为什么会存在‘变量提升’，它们的值又是如何被真正确定的这些问">
+<meta name="twitter:image" content="http://davidshariff.com/blog/wp-content/uploads/2012/06/img1.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="小狼驿站" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://github.com/tangxiaolang101/CanvasSmLine/blob/note/icon.png?raw=true" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">唐瓜</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/tangxiaolang101" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/3835343035/info" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhong-lou-45-44" title="zhihu">zhihu</a>
+					        
+								<a class="mail" target="_blank" href="/tangxiaolang101@163.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/翻译/" style="font-size: 10px;">翻译</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/tangxiaolang101">CSDN博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">2014年毕业于北航软件学院。一枚前端工程师——努力学习各种技能，在平凡的世界中，活出一个精彩的自己</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">唐瓜</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="https://github.com/tangxiaolang101/CanvasSmLine/blob/note/icon.png?raw=true" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">唐瓜</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/tangxiaolang101" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/3835343035/info" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhong-lou-45-44" title="zhihu">zhihu</a>
+			        
+						<a class="mail" target="_blank" href="/tangxiaolang101@163.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-深入探讨JavaScript的执行环境和栈（What is the Execution Context &amp; Stack in JavaScript）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/01/深入探讨JavaScript的执行环境和栈（What is the Execution Context & Stack in JavaScript）/" class="article-date">
+  	<time datetime="2016-08-01T09:05:38.000Z" itemprop="datePublished">2016-08-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      深入探讨JavaScript的执行环境和栈（What is the Execution Context &amp; Stack in JavaScript）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/翻译/">翻译</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文网址：<a href="http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/" target="_blank" rel="external">http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/</a></p>
+<p>这篇文章我将会深入地讨论JavaScript中最根本的一部分——Execution Context(执行上下文)。在文章结束的时候，你应该对解释器的工作原理有一个比较清晰的理解，对于为什么会存在‘变量提升’，它们的值又是如何被真正确定的这些问题有一个正确的答案。</p>
+<h4 id="什么是Executin-Context-执行上下文"><a href="#什么是Executin-Context-执行上下文" class="headerlink" title="什么是Executin Context(执行上下文)"></a>什么是Executin Context(执行上下文)</h4><p> 当JavaScript代码执行的时候，执行环境是很重要的，它可能是下面三种情况中的一种：</p>
+<ul>
+<li>全局 code（Global code）——代码第一次执行的默认环境</li>
+<li>函数 code（Function code）——执行流进入函数体</li>
+<li>Eval code（Eval code）——代码在eval函数内部执行</li>
+</ul>
+<p>在网上你能够读到许多关于作用域的资料，这篇文章的目的是让事情变得简单些。让我们来思考下execution context这个词，它与当前代码的环境 / 作用域是等价的。好了，说的够多了，让我们来看一个包含global和function / local context的例子吧。</p>
+<p><img src="http://davidshariff.com/blog/wp-content/uploads/2012/06/img1.jpg" alt="image"><br> 这里没有什么特别的地方，我们有一个global context被紫色的框框着，还有三个不同的function context，分别被绿色、蓝色、橘色的框框着。在你的程序中，有且仅能有一个global context，并且它能够被任何其他的context访问到。<br>你能够拥有任意多个function context，并且每个函数被调用的时候都会生成一个新的context。它会生成一个私有作用域，并且在它内部声明的任何东西都不能直接在它的外部访问。就像上面的例子，一个函数可以直接访问它外面的变量，但是外部的context就不能直接访问在内部声明的变量或者函数。为什么会这样？如何准确的理解这段代码的执行？<br><strong> 以上是文章摘要 阅读更多请点击——&gt;右下角的more </strong> <a id="more"></a> 以下是余下全文 </p>
+<h4 id="Execution-Context-Stack-执行上下文栈"><a href="#Execution-Context-Stack-执行上下文栈" class="headerlink" title="Execution Context Stack(执行上下文栈)"></a>Execution Context Stack(执行上下文栈)</h4><p> 浏览器中的JavaScript解释器是单线程的。意思就是说在浏览器中，同一时间只能做一件事，其它的行为和事件都会在Execution Stack中排队。下面这个图表就是一个单线程栈的抽象描述：<br><img src="http://davidshariff.com/blog/wp-content/uploads/2012/06/ecstack.jpg" alt="image"></p>
+<p> 我们已经知道，当浏览器第一次加载你的script的时候，默认进入global execution context。如果，你在全局代码中调用了函数，程序序列流就会进入被调用的函数中，生成一个新的execution context并且把它压入execution stack的顶部。<br> 如果你在当前函数内调用其他函数，会发生同样的事情。代码的执行流会进入内部函数，生成一个新的execution context,并且将它压入existing stack。浏览器总是会执行stack顶部的executin context，当被执行的函数上下文执行完成后，它将会弹出栈顶，然后将控制权返回给当前栈中的下一个对象。下面是一个循环函数执行栈的例子：</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">(<span class="name">function</span> foo(<span class="name">i</span>) &#123;</div><div class="line">    if (<span class="name">i</span> === <span class="number">3</span>) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        foo(<span class="name">++i</span>)<span class="comment">;</span></div><div class="line">    &#125;</div><div class="line">&#125;(<span class="number">0</span>))<span class="comment">;</span></div></pre></td></tr></table></figure>
+<p><img src="http://davidshariff.com/blog/wp-content/uploads/2012/06/es1.gif" alt="image"></p>
+<p>函数<code>foo</code>递归调用了3次，每次 i 增长1。函数 <code>foo</code> 每次调用后，都出生成一个新的execution context。当一个context执行完成后，它就会出栈并且把控制权返回给下面的context，直到再次到达<code>global context</code>。</p>
+<h5 id="关于execution-stack有5个关键点需要记住："><a href="#关于execution-stack有5个关键点需要记住：" class="headerlink" title="关于execution stack有5个关键点需要记住："></a>关于<code>execution stack</code>有5个关键点需要记住：</h5><ul>
+<li>单线程</li>
+<li>同步执行</li>
+<li>1个<code>Global context</code></li>
+<li>无限制的函数context</li>
+<li>每个函数调用都会创建新的<code>execution context</code>，即使是自己调用自己。<h4 id="Execution-Context的细节"><a href="#Execution-Context的细节" class="headerlink" title="Execution Context的细节"></a>Execution Context的细节</h4>现在我们知道了函数每次被调用的时候，一个新的<code>execution context</code>就会被创建。无论如何，在JavaScript解释器内部，每次调用执行<code>execution context</code>都有两个阶段：</li>
+</ul>
+<ol>
+<li><strong>创建阶段</strong>【在函数被调用的时候，但是内部代码执行之前】<ul>
+<li>创建Scope Chain</li>
+<li>创建变量、函数和参数</li>
+<li>确定 <code>&quot;this&quot;</code> 的值</li>
+</ul>
+</li>
+<li>激活 / 代码执行阶段<ul>
+<li>变量赋值、引用函数和解释 / 执行代码。<br>每个<code>execution context</code>在概念上可以用一个对象来表示，这个对象有三个属性：</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">executionContextObj = &#123;</div><div class="line">    <span class="symbol">'scopeChain</span>': &#123; /* variableObject + <span class="keyword">all</span> parent execution context<span class="symbol">'s</span> variableObject */ &#125;,</div><div class="line">    <span class="symbol">'variableObject</span>': &#123; /* <span class="keyword">function</span> <span class="title">arguments</span> / parameters, inner variable and <span class="keyword">function</span> <span class="title">declarations</span> */ &#125;,</div><div class="line">    'this': &#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="执行对象-变量对象【AO-VO】"><a href="#执行对象-变量对象【AO-VO】" class="headerlink" title="执行对象 / 变量对象【AO/VO】"></a>执行对象 / 变量对象【AO/VO】</h4><p>这个<code>executionContextObj</code>在函数被调用的时候创建，但是是在真实函数代码被执行之前。这个就可以理解为第一阶段，创建阶段（<code>Creation Stage</code>）。在这里，解释器通过搜索函数的形参和传入的实参、本地函数的声明和本地变量的声明来创建<code>executionContextObj</code>。搜索的结果就是<code>executionContextObj</code>对象中的<code>variableOject</code>属性。  </p>
+<p><strong>这里是解释器执行代码的一个伪综述：</strong></p>
+<ol>
+<li>找到调用函数的代码。</li>
+<li>在执行函数代码之前，创建<code>execution context</code>。</li>
+<li>进入创建阶段：<ul>
+<li>初始化<code>Scope Chain</code></li>
+<li>创建<code>variable object</code><ul>
+<li>创建实参对象（<code>arguments object</code>），检查context的形参（<code>parameters</code>），初始化参数的名称和参数值并且创建一份引用的拷贝。</li>
+<li>扫描context中的函数声明：<ul>
+<li>为每一个函数在<code>varible object</code>上创建一个属性，属性名就是函数名，含有一个指向内存中函数的引用指针。</li>
+<li>如果函数名已经存在了，这个引用指针的值将会被重写。</li>
+</ul>
+</li>
+<li>扫描context中的变量申明：<ul>
+<li>为每一个变量在<code>variable object</code>上创建一个属性， 属性名就是变量名并且将变量的值初始化为undefined。</li>
+<li>如果变量名在<code>variable object</code>中已经存在，那就什么都不会发生，并且继续扫描。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>确定context中 <code>&quot;this&quot;</code>的值。</li>
+</ul>
+<ol>
+<li>激活 / 代码执行阶段：<ul>
+<li>运行 / 解释context中的函数代码，并且根据代码一行一行的执行，为变量赋值。</li>
+</ul>
+</li>
+</ol>
+<p>让我们来看一个例子：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">(i)</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> a = <span class="string">'hello'</span>;</div><div class="line">    <span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span> <span class="title">privateB</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">c</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo(<span class="number">22</span>);</div></pre></td></tr></table></figure>
+<p>当调用<code>foo（22）</code>时，创建阶段（<code>creation stage</code>）时，<code>context</code>是下面这个样子：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">fooExecutionContext = &#123;</div><div class="line"><span class="symbol">    scopeChain:</span> &#123; ... &#125;,</div><div class="line"><span class="symbol">    variableObject:</span> &#123;</div><div class="line"><span class="symbol">        arguments:</span> &#123;</div><div class="line">            <span class="number">0</span>: <span class="number">22</span>,</div><div class="line"><span class="symbol">            length:</span> <span class="number">1</span></div><div class="line">        &#125;,</div><div class="line"><span class="symbol">        i:</span> <span class="number">22</span>,</div><div class="line"><span class="symbol">        c:</span> pointer to function c()</div><div class="line"><span class="symbol">        a:</span> undefined,</div><div class="line"><span class="symbol">        b:</span> undefined</div><div class="line">    &#125;,</div><div class="line"><span class="symbol">    this:</span> &#123; ... &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因此，你可以看到，在创建阶段（<code>creation stage</code>）只负责对属性名称（变量名）的定义，但是并没有给它们赋值，当然这里有一个例外就是formal arguments / parameters(实参 / 形参)。当创建阶段完成以后，执行流进入函数内部,激活执行阶段（<code>execution stage</code>），然后代码完成执行，<code>context</code>是下面这个样子：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">fooExecutionContext = &#123;</div><div class="line">    scopeChain: &#123; ... &#125;,</div><div class="line">    variableObjec<span class="variable">t:</span> &#123;</div><div class="line">        <span class="keyword">argument</span><span class="variable">s:</span> &#123;</div><div class="line">            <span class="number">0</span>: <span class="number">22</span>,</div><div class="line">            length: <span class="number">1</span></div><div class="line">        &#125;,</div><div class="line">        i: <span class="number">22</span>,</div><div class="line">        <span class="keyword">c</span>: pointer <span class="keyword">to</span> <span class="function"><span class="keyword">function</span> <span class="title">c</span><span class="params">()</span></span></div><div class="line">        <span class="variable">a:</span> <span class="string">'hello'</span>,</div><div class="line">        <span class="variable">b:</span> pointer <span class="keyword">to</span> <span class="function"><span class="keyword">function</span> <span class="title">privateB</span><span class="params">()</span></span></div><div class="line">    &#125;,</div><div class="line">    thi<span class="variable">s:</span> &#123; ... &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="关于Hoisting（变量提升）"><a href="#关于Hoisting（变量提升）" class="headerlink" title="关于Hoisting（变量提升）"></a>关于Hoisting（变量提升）</h4><p>在网上你可以找到很多定义JavaScript中hoisting这个词的文献，解释变量和函数的声明在它们的作用域中被提前。但是，没有从细节上解释为什么会发什么这种现象。通过了解解释器如何创建<code>activation object</code>，就很容易知道这种现象发生的原因了。看下面这个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> foo); <span class="comment">// function pointer</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> bar); <span class="comment">// undefined</span></div><div class="line"></div><div class="line">    <span class="keyword">var</span> foo = <span class="string">'hello'</span>,</div><div class="line">        bar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">'world'</span>;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">'hello'</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;());​</div></pre></td></tr></table></figure>
+<p>现在我们可以回答下面这些问题了：</p>
+<ul>
+<li>在<code>foo</code>声明之前，为什么我们可以访问它？<ul>
+<li>如果我们来跟踪<code>creation stage</code>, 我们知道在代码执行阶段之前，变量已经被创建了。因此在函数流开始执行之前，<code>foo</code>已经在<code>activation object</code>中被定义了。</li>
+</ul>
+</li>
+<li><code>foo</code> 被声明了两次，为什么 <code>foo</code> 最后显示出来是一个function，并不是undefined或者是string？<ul>
+<li>尽管 <code>foo</code> 被声明了两次，我们知道，在创建阶段，函数的创建是在变量之前的，并且如果属性名在<code>activation object</code>中已经存在的话，我们是会简单的跳过这个声明的。</li>
+<li>因此，对 <code>function foo()</code>的引用在<code>activation object</code>上先被创建了，当解释器到达 <code>var foo</code> 时，我们会发现属性名 <code>foo</code> 已经存在了，因此代码什么都不会做，继续向下执行。</li>
+</ul>
+</li>
+<li>为什么 bar 是undefined？<ul>
+<li>bar实际上是一个变量，并且被赋值了一个函数的引用。我们知道变量是在创建阶段被创建的，但是它们会被初始化为undefined，所以bar是undefined。<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4>希望现在你对JavaScript解释器如何执行你的代码能有一个好的理解了。理解execution context and stack会让你知道为什么你的代码有时候会输出和你最初期望不一样的值。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/07/29/JS函数式编程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS函数式编程</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="深入探讨JavaScript的执行环境和栈（What is the Execution Context &amp; Stack in JavaScript）" data-title="深入探讨JavaScript的执行环境和栈（What is the Execution Context &amp; Stack in JavaScript）" data-url="https://tangxiaolang101.github.io/2016/08/01/深入探讨JavaScript的执行环境和栈（What is the Execution Context &amp; Stack in JavaScript）/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 唐瓜
+    	</div>
+      	<div class="footer-right">
+      		
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
