@@ -185,6 +185,71 @@
 
       <div class="body-wrap">
   
+    <article id="post-标签解析和JavaScript的闭包-Identifier-Resolution-and-Closures-in-the-JavaScript-Scope-Chain" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/04/标签解析和JavaScript的闭包-Identifier-Resolution-and-Closures-in-the-JavaScript-Scope-Chain/" class="article-date">
+  	<time datetime="2016-08-04T07:49:59.000Z" itemprop="datePublished">2016-08-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/04/标签解析和JavaScript的闭包-Identifier-Resolution-and-Closures-in-the-JavaScript-Scope-Chain/">标签解析和JavaScript的闭包(Identifier Resolution and Closures in the JavaScript Scope Chain)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="原文地址：http-davidshariff-com-blog-javascript-scope-chain-and-closures-more-271"><a href="#原文地址：http-davidshariff-com-blog-javascript-scope-chain-and-closures-more-271" class="headerlink" title="原文地址：http://davidshariff.com/blog/javascript-scope-chain-and-closures/#more-271"></a>原文地址：<a href="http://davidshariff.com/blog/javascript-scope-chain-and-closures/#more-271">http://davidshariff.com/blog/javascript-scope-chain-and-closures/#more-271</a></h3><p>从我的<a href="http://blog.csdn.net/tangxiaolang101/article/details/52087239">上篇文章</a>中，我们知道每个函数都会有一个关联的<code>execution context</code>，<code>execution context</code>包含一个变量对象<code>variable object[VO]</code>。变量对象由函数的局部变量、内部函数和参数声明组成。<br>每个<code>execution context</code>的作用域链（<code>scope chain</code>）属性简单来说就是当前context的[VO]和所有父级的词法作用域的[VO]。<br>Scope = VO + All Parent VOs<br>Eg: scopeChain = [[VO] + [VO1] + [VO2] + [VO n+1]];  </p>
+<h4 id="定义作用域链的变量对象"><a href="#定义作用域链的变量对象" class="headerlink" title="定义作用域链的变量对象"></a>定义作用域链的变量对象</h4><h4 id="VO-s"><a href="#VO-s" class="headerlink" title="[VO]s"></a>[VO]s</h4><p>现在我们知道作用域链的第一个[VO]属于当前的<code>execution context</code>，通过查找父级context的作用域链，我们能够找到其余的父级[VO]：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="title">one</span>() &#123;</div><div class="line"></div><div class="line">    two();</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="title">two</span>() &#123;</div><div class="line"></div><div class="line">        three();</div><div class="line"></div><div class="line">        <span class="keyword">function</span> <span class="title">three</span>() &#123;</div><div class="line">            alert('I am at <span class="keyword">function</span> <span class="title">three');</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">one();</div></pre></td></tr></table></figure>
+<p><img src="http://davidshariff.com/blog/wp-content/uploads/2012/06/stack14.jpg" alt="image"></p>
+<p>这个例子直截了当的表明了这种情况。从<code>global context</code> 开始，我们调用了 <code>one()</code>, <code>one()</code>调用了<code>two()</code>, 然后又调用了<code>three()</code>。在函数 <code>tree()</code>内，执行了提示输出。上面的图片展示出了函数 <code>three()</code> 在执行 <code>alert(&#39;I am at function three&#39;)</code> 时的调用栈。此时，我们可以将 <code>scope chain</code> 理解为下面这样：<br><code>three() Scope Chain = [[three() VO] + [two() VO] + [one() VO] + [Global VO]]</code></p>
+<h4 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h4><p>JavaScript的一个重要特征就是解释器使用了词法作用域，而不是动态作用域。复杂点来说，就是所有内部函数都会根据代码位置，静态地绑定到父级<code>context</code>上。<br><strong> 以上是文章摘要 阅读更多请点击——&gt;右下角的more </strong>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/翻译/">翻译</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/08/04/标签解析和JavaScript的闭包-Identifier-Resolution-and-Closures-in-the-JavaScript-Scope-Chain/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-深入探讨JavaScript的执行环境和栈（What is the Execution Context &amp; Stack in JavaScript）" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
