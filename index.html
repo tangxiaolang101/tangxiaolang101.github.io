@@ -185,6 +185,70 @@
 
       <div class="body-wrap">
   
+    <article id="post-JavaScript中this关键字" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/10/JavaScript中this关键字/" class="article-date">
+  	<time datetime="2016-08-10T07:02:17.000Z" itemprop="datePublished">2016-08-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/10/JavaScript中this关键字/">JavaScript中this关键字</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><p>原文链接：<a href="http://davidshariff.com/blog/javascript-this-keyword/#first-article">http://davidshariff.com/blog/javascript-this-keyword/#first-article</a><br><code>this</code> 关键词是 JavaScript 一个常用的特性，但是它同时也是这门语言中最容易让人困惑或者误解的一个点。this 实际上是什么意思？如何去确定呢？<br>这篇文章尽力用一种清晰的方式来解决大家的困惑。<br>‘this’ 关键字对于其它程序化编程语言并不新奇，它经常指向一个类的构造函创建的新对象。举个例子：如果我有一个 <code>Boat()</code> 类，它含有一个 <code>moveBoat()</code> 方法，当在 moveBoat() 方法内部引用 <code>this</code> 的时候，我们实际上访问的是新创建的对象 Boat().<br>在JavaScript中，当使用new关键字的时候，我们也有构造函数这么个概念。但是，这并不是唯一的规则， this 经常会根据不同的execution context 指向不同的对象。如果你对execution context不是很清楚的话，我推荐你阅读我的<a href="http://blog.csdn.net/tangxiaolang101/article/details/52087239">另一篇文章</a>。说的够多了，让我们来看一些JavaScript的例子：  </p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// global scope</span></div><div class="line"></div><div class="line">foo = <span class="string">'abc'</span>;</div><div class="line">alert<span class="comment">(foo)</span>; <span class="comment">// abc</span></div><div class="line"></div><div class="line">this.foo = <span class="string">'def'</span>;</div><div class="line">alert<span class="comment">(foo)</span>; <span class="comment">// def</span></div></pre></td></tr></table></figure>
+<p>当我们在全局上下文中（不再函数内部）使用 this 关键字时，this 总是指向全局对象。现在让我们看看 this 在函数内部的情况：  </p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> boat = &#123;</div><div class="line">    size: <span class="string">'normal'</span>,</div><div class="line">    boatInfo: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">        alert(<span class="keyword">this</span> === boat);</div><div class="line">        alert(<span class="keyword">this</span>.size);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">boat.boatInfo(); <span class="comment">// true, 'normal'</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> bigBoat = &#123;</div><div class="line">    size: <span class="string">'big'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">bigBoat.boatInfo = boat.boatInfo;</div><div class="line">bigBoat.boatInfo(); <span class="comment">// false, 'big'</span></div></pre></td></tr></table></figure>
+<p>上面这个例子中 this 如何确定？<br><strong> 以上是文章摘要 阅读更多请点击——&gt;右下角的more </strong>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/翻译/">翻译</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/08/10/JavaScript中this关键字/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-标签解析和JavaScript的闭包-Identifier-Resolution-and-Closures-in-the-JavaScript-Scope-Chain" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">

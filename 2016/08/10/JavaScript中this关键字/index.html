@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>JavaScript中this关键字 | 小狼驿站</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="译文原文链接：http://davidshariff.com/blog/javascript-this-keyword/#first-articlethis 关键词是 JavaScript 一个常用的特性，但是它同时也是这门语言中最容易让人困惑或者误解的一个点。this 实际上是什么意思？如何去确定呢？这篇文章尽力用一种清晰的方式来解决大家的困惑。‘this’ 关键字对于其它程序化编程语言并不新奇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript中this关键字">
+<meta property="og:url" content="https://tangxiaolang101.github.io/2016/08/10/JavaScript中this关键字/index.html">
+<meta property="og:site_name" content="小狼驿站">
+<meta property="og:description" content="译文原文链接：http://davidshariff.com/blog/javascript-this-keyword/#first-articlethis 关键词是 JavaScript 一个常用的特性，但是它同时也是这门语言中最容易让人困惑或者误解的一个点。this 实际上是什么意思？如何去确定呢？这篇文章尽力用一种清晰的方式来解决大家的困惑。‘this’ 关键字对于其它程序化编程语言并不新奇">
+<meta property="og:updated_time" content="2016-08-10T07:03:14.891Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript中this关键字">
+<meta name="twitter:description" content="译文原文链接：http://davidshariff.com/blog/javascript-this-keyword/#first-articlethis 关键词是 JavaScript 一个常用的特性，但是它同时也是这门语言中最容易让人困惑或者误解的一个点。this 实际上是什么意思？如何去确定呢？这篇文章尽力用一种清晰的方式来解决大家的困惑。‘this’ 关键字对于其它程序化编程语言并不新奇">
+  
+    <link rel="alternative" href="/atom.xml" title="小狼驿站" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://github.com/tangxiaolang101/CanvasSmLine/blob/note/icon.png?raw=true" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">唐瓜</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/tangxiaolang101" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/3835343035/info" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhong-lou-45-44" title="zhihu">zhihu</a>
+					        
+								<a class="mail" target="_blank" href="/tangxiaolang101@163.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/翻译/" style="font-size: 10px;">翻译</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/tangxiaolang101">CSDN博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">2014年毕业于北航软件学院。一枚前端工程师——努力学习各种技能，在平凡的世界中，活出一个精彩的自己</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">唐瓜</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="https://github.com/tangxiaolang101/CanvasSmLine/blob/note/icon.png?raw=true" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">唐瓜</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/tangxiaolang101" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/3835343035/info" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhong-lou-45-44" title="zhihu">zhihu</a>
+			        
+						<a class="mail" target="_blank" href="/tangxiaolang101@163.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-JavaScript中this关键字" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/10/JavaScript中this关键字/" class="article-date">
+  	<time datetime="2016-08-10T07:02:17.000Z" itemprop="datePublished">2016-08-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript中this关键字
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/翻译/">翻译</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><p>原文链接：<a href="http://davidshariff.com/blog/javascript-this-keyword/#first-article" target="_blank" rel="external">http://davidshariff.com/blog/javascript-this-keyword/#first-article</a><br><code>this</code> 关键词是 JavaScript 一个常用的特性，但是它同时也是这门语言中最容易让人困惑或者误解的一个点。this 实际上是什么意思？如何去确定呢？<br>这篇文章尽力用一种清晰的方式来解决大家的困惑。<br>‘this’ 关键字对于其它程序化编程语言并不新奇，它经常指向一个类的构造函创建的新对象。举个例子：如果我有一个 <code>Boat()</code> 类，它含有一个 <code>moveBoat()</code> 方法，当在 moveBoat() 方法内部引用 <code>this</code> 的时候，我们实际上访问的是新创建的对象 Boat().<br>在JavaScript中，当使用new关键字的时候，我们也有构造函数这么个概念。但是，这并不是唯一的规则， this 经常会根据不同的execution context 指向不同的对象。如果你对execution context不是很清楚的话，我推荐你阅读我的<a href="http://blog.csdn.net/tangxiaolang101/article/details/52087239" target="_blank" rel="external">另一篇文章</a>。说的够多了，让我们来看一些JavaScript的例子：  </p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// global scope</span></div><div class="line"></div><div class="line">foo = <span class="string">'abc'</span>;</div><div class="line">alert<span class="comment">(foo)</span>; <span class="comment">// abc</span></div><div class="line"></div><div class="line">this.foo = <span class="string">'def'</span>;</div><div class="line">alert<span class="comment">(foo)</span>; <span class="comment">// def</span></div></pre></td></tr></table></figure>
+<p>当我们在全局上下文中（不再函数内部）使用 this 关键字时，this 总是指向全局对象。现在让我们看看 this 在函数内部的情况：  </p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> boat = &#123;</div><div class="line">    size: <span class="string">'normal'</span>,</div><div class="line">    boatInfo: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">        alert(<span class="keyword">this</span> === boat);</div><div class="line">        alert(<span class="keyword">this</span>.size);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">boat.boatInfo(); <span class="comment">// true, 'normal'</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> bigBoat = &#123;</div><div class="line">    size: <span class="string">'big'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">bigBoat.boatInfo = boat.boatInfo;</div><div class="line">bigBoat.boatInfo(); <span class="comment">// false, 'big'</span></div></pre></td></tr></table></figure>
+<p>上面这个例子中 this 如何确定？<br><strong> 以上是文章摘要 阅读更多请点击——&gt;右下角的more </strong> <a id="more"></a><br>我们可以看到，boat 对象有一个属性size，和一个方法 boatInfo()。在 boatInfo()内，判断 this 的值是不是 boat 对象，并且用alert输出属性this的值。因此，我们使用 boat对象调用函数的时候可以看到，this 就是 boat对象，boat的size属性值是normal。<br>然后我们创建了另一个对象 bigBoat，bigBoat也有一个属性size，值是big。但是，bigBoat对象没有boatInfo()方法，所以我们使用 <code>bigBoat.boatInfo = boat.boatInfo</code>从boat那里复制一个。现在，我们调用 bigBoat.boatInfo()，我们可以看到 this 的值不再是 boat并且属性size的值现在是big了。为什么会这样？boatInfo()内部如何改变了this的值？<br>首先，你必须认识到一点，在任何函数内部，this的值永远不是静态的。它会在你每次调用函数并且真正执行函数代码之前被确定。this的值是由函数调用时的父级作用域提供的，更重要的是，如何写实际函数的语法。<br>当一个函数被调用的时候，我们立即看 <code>()</code>左边的部分。如果在括号左边，我们能看到一个引用，那么 this 的值就是调用这个函数的对象，否则就是全局对象。让我们看一些例子：  </p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span><span class="params">()</span> </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line">bar(); <span class="comment">// global - because the method bar() belongs to the global object when invoked</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> foo = &#123;</div><div class="line">    baz: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">        alert(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">foo.baz(); <span class="comment">// foo - because the method baz() belongs to the object foo when invoked</span></div></pre></td></tr></table></figure>
+<p>现在为止，一切都还讲的通，都很清晰。我们进一步复杂化，通过两种不同的调用方式，改变 this 在同一函数中的值： </p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = &#123;</div><div class="line">    baz: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">        alert(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">foo.baz(); <span class="comment">// foo - because baz belongs to the foo object when invoked</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> anotherBaz = foo.baz;</div><div class="line">anotherBaz(); <span class="comment">// global - because the method anotherBaz() belongs to the global object when invoked, NOT foo</span></div></pre></td></tr></table></figure>
+<p>这里，我们可以看到，用两种不同的方式对函数 baz() 进行同步调用时，this 的值是不同的。现在，让我们看看深层嵌套对象中 this 的值： </p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> anum = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> foo = &#123;</div><div class="line">    anum: <span class="number">10</span>,</div><div class="line">    baz: &#123;</div><div class="line">        anum: <span class="number">20</span>,</div><div class="line">        bar: <span class="keyword">function</span>() &#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.anum);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">foo.baz.bar(); <span class="regexp">// 20 - because left side of () is bar, which belongs to baz object when invoked</span></div><div class="line"></div><div class="line">var hello = foo.baz.bar;</div><div class="line">hello(); // <span class="number">0</span> - because left side <span class="keyword">of</span> () <span class="keyword">is</span> hello, which belongs <span class="keyword">to</span> <span class="built_in">global</span> object <span class="keyword">when</span> invoked</div></pre></td></tr></table></figure>
+<p>另一个经常被问到的问题是 this 关键字在事件句柄中是如何被确定的？答案是：this 在事件句柄中总是指向被触发的元素。让我们看看下面这个例子：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;div id=<span class="string">"test"</span>&gt;I am an element <span class="keyword">with</span> id #test&lt;/div&gt;function doAlert() &#123;</div><div class="line">    alert(<span class="keyword">this</span>.innerHTML);</div><div class="line">&#125;</div><div class="line"></div><div class="line">doAlert(); <span class="comment">// undefined</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> myElem = <span class="built_in">document</span>.getElementById(<span class="string">'test'</span>);</div><div class="line">myElem.onclick = doAlert;</div><div class="line"></div><div class="line">alert(myElem.onclick === doAlert); <span class="comment">// true</span></div><div class="line">myElem.onclick(); <span class="comment">// I am an element</span></div></pre></td></tr></table></figure>
+<p>这里我们可以看到，当doAlert()第一次被调用的时候，提示undefined，因为 doAlert() 属于全局对象。然后我们写了 <code>myElem.onclick = doAlert</code>，把 doAlert() 函数拷贝赋值给了myElem 的onclick()事件。这意味着当onclick被激活的时候，它是myElem的一个方法，准确的来说，这意味着 <code>this</code> 的值将会是myElem对象。<br>关于这个话题，我想说的最后一个点是，this的值也可以通过call()和apply()手动设置，推翻上面我们所讨论的一切。同样有趣的是，当在构造函数内部调用 this 的时候，this 指向的是新创建的对象实例。原因是，构造函数被 new 关键字调用的时候，会创建一个新的对象，构造函数中的this总是指向那个刚刚被创建的对象。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>希望今天的这篇文章能够解决大家关于this关键字的疑惑，取得进步，并且能够总是知道this正确的取值。我们现在都了解了，this永远都不会是静态的，它的值依赖于它的函数的调用方法。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/08/04/标签解析和JavaScript的闭包-Identifier-Resolution-and-Closures-in-the-JavaScript-Scope-Chain/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">标签解析和JavaScript的闭包(Identifier Resolution and Closures in the JavaScript Scope Chain)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JavaScript中this关键字" data-title="JavaScript中this关键字" data-url="https://tangxiaolang101.github.io/2016/08/10/JavaScript中this关键字/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 唐瓜
+    	</div>
+      	<div class="footer-right">
+      		
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
