@@ -185,6 +185,83 @@
 
       <div class="body-wrap">
   
+    <article id="post-JavaScript-closure的一个问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/11/JavaScript-closure的一个问题/" class="article-date">
+  	<time datetime="2016-08-11T06:44:53.000Z" itemprop="datePublished">2016-08-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/11/JavaScript-closure的一个问题/">JavaScript closure的一个问题</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">down vote</div><div class="line">favorite</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span><span class="params">()</span> </span>&#123;　　　　</div><div class="line">    <span class="keyword">var</span> n = <span class="number">999</span>;　　　　</div><div class="line">    nAdd = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">        n += <span class="number">1</span></div><div class="line">    &#125;　　　　</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f2</span><span class="params">()</span> </span>&#123;　　　　　　</div><div class="line">        alert(n);　　　　</div><div class="line">    &#125;　　　　</div><div class="line">    <span class="keyword">return</span> f2;　　</div><div class="line">&#125;　　</div><div class="line"><span class="keyword">var</span> result1 = f1();</div><div class="line"><span class="keyword">var</span> result2 = f1();</div><div class="line"><span class="keyword">var</span> result3 = f1();　　</div><div class="line"></div><div class="line">nAdd();</div><div class="line">result1();  <span class="comment">//999</span></div><div class="line">result2(); <span class="comment">//999</span></div><div class="line">result3(); <span class="comment">//1000</span></div></pre></td></tr></table></figure>
+<p>以上是困惑的问题？为什么nAdd（）影响最近的闭包。<br>stackoverflow的两个答案，合起来能很好的理解这个问题。  </p>
+<h4 id="1-进一步明白细节的回答"><a href="#1-进一步明白细节的回答" class="headerlink" title="1.进一步明白细节的回答"></a>1.进一步明白细节的回答</h4><p>It has to do with when nAdd is assigned the function. Note that when you create a closure, a new “copy” (for lack of a better word) of the local variables are created. Thus, result1’s n is different from result2s n which is different from result3’s n. They are seperate, and each closure cannot access another closure’s n.</p>
+<p>Look at this line:</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nAdd = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">     n += <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>This assigns nAdd a new closure each time. Each time, this closure will only affect the most recent “copy” of n.</p>
+<p>So when you are doing.</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> result1 = f1(); <span class="comment">// assign nAdd for the first time, referring to result1's n.</span></div><div class="line"><span class="keyword">var</span> result2 = f1(); <span class="comment">// re-assign nAdd, now it affects result2's n.</span></div><div class="line"><span class="keyword">var</span> result3 = f1(); <span class="comment">// re-assign nAdd, now it affect result3's n.</span></div></pre></td></tr></table></figure>
+<p>nAdd got assigned a new closure each time. The last time, nAdd got assigned a closure with result3’s copy of n.</p>
+<p>Thus, when you do nAdd(), you only increment result3’s n.</p>
+<p>Here’s an example that might clear things up.</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span><span class="params">()</span> </span>&#123;　　　　</div><div class="line">    <span class="keyword">var</span> n = <span class="number">999</span>;　　　　</div><div class="line">    nAdd = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">        n += <span class="number">1</span></div><div class="line">    &#125;　　　　</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f2</span><span class="params">()</span> </span>&#123;　　　　　　</div><div class="line">        alert(n);　　　　</div><div class="line">    &#125;　　　　</div><div class="line">    <span class="keyword">return</span> f2;　　</div><div class="line">&#125;　　</div><div class="line"><span class="keyword">var</span> result1 = f1();</div><div class="line"><span class="keyword">var</span> nAdd1 = nAdd;</div><div class="line"><span class="keyword">var</span> result2 = f1();</div><div class="line"><span class="keyword">var</span> nAdd2 = nAdd;</div><div class="line"><span class="keyword">var</span> result3 = f1();　　</div><div class="line"><span class="keyword">var</span> nAdd3 = nAdd;</div><div class="line"></div><div class="line">nAdd3();</div><div class="line">result1();  <span class="comment">//999</span></div><div class="line">result2(); <span class="comment">//999</span></div><div class="line">result3(); <span class="comment">//1000</span></div><div class="line">nAdd1();</div><div class="line">result1(); <span class="comment">// 1000</span></div><div class="line">nAdd1();</div><div class="line">result1(); <span class="comment">// 1001</span></div><div class="line">nAdd2();</div><div class="line">result2(); <span class="comment">// 1000</span></div><div class="line">nAdd();</div><div class="line">result3(); <span class="comment">// 1001 (the most recent nAdd result3's n).</span></div></pre></td></tr></table></figure>
+<p>To further elaborate, consider what would happen if you did this instead:</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var result1 = f1()<span class="comment">;</span></div><div class="line">nAdd()<span class="comment">;</span></div><div class="line">var result2 = f1()<span class="comment">;</span></div><div class="line">var result3 = f1()<span class="comment">;　</span></div><div class="line"></div><div class="line">result1()<span class="comment">; // 1000</span></div><div class="line">result2()<span class="comment">; // 999</span></div><div class="line">result3()<span class="comment">; //999</span></div></pre></td></tr></table></figure>
+<p>Or this:</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var result1 = f1()<span class="comment">;</span></div><div class="line">var result2 = f1()<span class="comment">;</span></div><div class="line">nAdd()<span class="comment">;</span></div><div class="line">var result3 = f1()<span class="comment">;　</span></div><div class="line"></div><div class="line">result1()<span class="comment">; // 999</span></div><div class="line">result2()<span class="comment">; // 1000</span></div><div class="line">result3()<span class="comment">; // 999</span></div></pre></td></tr></table></figure>
+<p>It becomes obvious that nAdd updates only the most recent invocation’s n.!</p>
+<h4 id="2-调用本质的回答"><a href="#2-调用本质的回答" class="headerlink" title="2.调用本质的回答"></a>2.调用本质的回答</h4><p>First, you need to be clear about the following thing:</p>
+<p>nAdd is a global scoped function. But it is using a local scoped variable n.</p>
+<p>Every time you re-create f1(), the pointer of nAdd function will change.</p>
+<p>Finally it will changed to the closest f1() closure and the n variable inside nAdd function will also point to the closest f1() closure. So it can only change the value of the closest one.</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-JavaScript中this关键字" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
